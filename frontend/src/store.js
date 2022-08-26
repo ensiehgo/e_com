@@ -10,13 +10,13 @@ import {
 } from "./reducers/productReducer";
 
 import {
+  profileReducer,
   allUsersReducer,
   forgotPasswordReducer,
-  profileReducer,
   userDetailsReducer,
   userReducer,
 } from "./reducers/userReducer";
-
+import { cartReducer } from "./reducers/cartReducer";
 import {
   allOrdersReducer,
   myOrdersReducer,
@@ -29,9 +29,8 @@ const reducer = combineReducers({
   products: productsReducer,
   productDetails: productDetailsReducer,
   user: userReducer,
-  // profile: profileReducer,
-  // forgotPassword: forgotPasswordReducer,
-  // cart: cartReducer,
+  profile: profileReducer,
+  cart: cartReducer,
   // newOrder: newOrderReducer,
   // myOrders: myOrdersReducer,
   // orderDetails: orderDetailsReducer,

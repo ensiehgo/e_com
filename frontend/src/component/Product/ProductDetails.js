@@ -8,6 +8,7 @@ import { useAlert } from "react-alert";
 import MetaData from "../layout/MetaData";
 import { clearErrors, getProductDetails } from "../../actions/productAction";
 import { Rating } from "@material-ui/lab";
+import { addItemsToCart } from "../../actions/cartAction";
 
 const ProductDetails = ({ match }) => {
   const dispatch = useDispatch();
@@ -41,6 +42,12 @@ const ProductDetails = ({ match }) => {
   };
 
   const { id } = useParams();
+
+  const addToCartHandler = () => {
+    dispatch(addItemsToCart(id, quantity));
+    alert.success("Item Added To Cart");
+  };
+
   useEffect(() => {
     if (error) {
       alert.error(error);
@@ -89,7 +96,12 @@ const ProductDetails = ({ match }) => {
                 <input readOnly type="number" value={quantity} />
                 <button onClick={increaseQuantity}>+</button>
               </div>
-              <button>Add to Cart</button>
+              <button
+                  disabled={product.Stock < 1 ? true : false}
+                  onClick={addToCartHandler}
+                >
+                  Add to Cart
+              </button>
             </div>
 
             <p>
