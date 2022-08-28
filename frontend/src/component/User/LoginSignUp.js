@@ -1,22 +1,19 @@
 import React, { Fragment, useRef, useState, useEffect } from "react";
 import "./LoginSignUp.css";
 import Loader from "../layout/Loader/Loader";
-import { Link } from "react-router-dom";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import FaceIcon from "@material-ui/icons/Face";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, login, register } from "../../actions/userAction";
 import { useAlert } from "react-alert";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const LoginSignUp = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
 
-  const { error, loading, isAuthenticated } = useSelector(
-    (state) => state.user
-  );
+  const { error, loading, isAuthenticated } = useSelector((state) => state.user);
 
   const loginTab = useRef(null);
   const registerTab = useRef(null);
@@ -64,15 +61,16 @@ const LoginSignUp = () => {
           setAvatar(reader.result);
         }
       };
-
       reader.readAsDataURL(e.target.files[0]);
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });
     }
   };
 
-  let location = useLocation();
+  const location = useLocation();
+  // console.log(location);
   const redirect = location.search ? location.search.split("=")[1] : "/account";
+  // console.log('redirect: ' + redirect);
 
   const navigate = useNavigate();
 
@@ -81,10 +79,8 @@ const LoginSignUp = () => {
       alert.error(error);
       dispatch(clearErrors());
     }
-
     if (isAuthenticated) {
-      navigate(redirect);
-      // history.push("/account");
+      navigate("/" + redirect);
     }
   }, [dispatch, error, alert, isAuthenticated, redirect]);
 

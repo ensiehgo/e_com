@@ -5,12 +5,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { addItemsToCart, removeItemsFromCart } from "../../actions/cartAction";
 import { Typography } from "@material-ui/core";
 import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
-const Cart = ({  }) => {
+
+const Cart = () => {
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
+  const {isAuthenticated } = useSelector((state) => state.user);
 
   const increaseQuantity = (id, quantity, stock) => {
     const newQty = quantity + 1;
@@ -34,7 +35,13 @@ const Cart = ({  }) => {
   
   const navigate = useNavigate();
   const checkoutHandler = () => {
-    navigate("/login?redirect=shipping");
+    if(isAuthenticated){
+      navigate("/shipping");
+    }
+    else{
+      navigate("/login?redirect=shipping");
+    }
+    // navigate("/login?redirect=shipping");
   };
 
   return (

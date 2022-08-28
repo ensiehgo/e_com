@@ -31,7 +31,7 @@ const reducer = combineReducers({
   user: userReducer,
   profile: profileReducer,
   cart: cartReducer,
-  // newOrder: newOrderReducer,
+  newOrder: newOrderReducer,
   // myOrders: myOrdersReducer,
   // orderDetails: orderDetailsReducer,
   // newProduct: newProductReducer,
