@@ -18,23 +18,22 @@ import ProtectedRoute from "./component/Route/ProtectedRoute";
 import Cart from "./component/Cart/Cart";
 import Shipping from "./component/Cart/Shipping";
 import ConfirmOrder from "./component/Cart/ConfirmOrder";
-import axios from 'axios';
 import Payment from "./component/Cart/Payment";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import OrderSuccess from "./component/Cart/OrderSuccess";
+import MyOrders from "./component/Order/MyOrders.js";
+import OrderDetails from "./component/Order/OrderDetails";
+import Dashboard from "./component/Admin/Dashboard";
+import ProductList from "./component/Admin/ProductList";
+import NewProduct from "./component/Admin/NewProduct";
+import OrderList from "./component/Admin/OrderList";
+import UsersList from "./component/Admin/UsersList.js";
+import UpdateUser from "./component/Admin/UpdateUser";
+
 
 
 function App() {
 
   const { isAuthenticated, user, isAdmin } = useSelector((state) => state.user);
-  const [stripeApiKey, setStripeApiKey] = useState("");
-
-  async function getStripeApiKey() {
-    const { data } = await axios.get("/api/v1/stripeapikey");
-
-    setStripeApiKey(data.stripeApiKey);
-  }
 
   useEffect(() => {
     WebFont.load({
@@ -44,9 +43,6 @@ function App() {
     });
 
     store.dispatch(loadUser());
-
-    getStripeApiKey();
-
   }, []);
 
 
@@ -54,14 +50,10 @@ function App() {
     <Header/>
 
     {isAuthenticated && <UserOptions user={user} />}
-    {stripeApiKey && (
-        <Elements stripe={loadStripe(stripeApiKey)}>
-          <Route exact path="/process/payment" element={<Payment/>} />
-        </Elements>
-      )}
 
     <Routes>
-      <Route exact path="/" element = {<Home />}/>
+    {/* <Route exact path="/admin/dashboard" element = {<Dashboard />}/> */}
+      <Route exact path="/" element = {<Home />}/>//d
       <Route exact path="/product/:id" element = {<ProductDetails />}/>
       <Route exact path="/products" element = {<Products />}/>
       <Route exact path="/login" element = {<LoginSignUp />}/>
@@ -72,27 +64,35 @@ function App() {
         <Route exact path="/shipping" element = {<Shipping />}/>
         <Route exact path="/order/confirm" element = {<ConfirmOrder />}/>
         <Route exact path="/success" element = {<OrderSuccess />}/>
-        {stripeApiKey && (
-          <Elements stripe={loadStripe(stripeApiKey)}>
-            <Route exact path="/process/payment" element = {<OrderSuccess />}/>
-          </Elements>
-        )}
+        <Route exact path="/orders" element = {<MyOrders/>}/>
+        {/* <Route exact path="/order/:id" element = {<OrderDetails/>}/> */}
+        <Route exact path="/process/payment" element = {<Payment />}/>
       </Route>
-      {/* {stripeApiKey && (
-        <Elements stripe={loadStripe(stripeApiKey)}>
-          <Route
-          exact path="/process/payment" 
-          element = 
-          {
-              <ProtectedRoute isAdmin={isAdmin}>
-                <OrderSuccess />
-              </ProtectedRoute>
-          }
-          />
-        </Elements> */}
-      )}
+
+     
+     
+      {/* Admin Routes */}
+      <Route element = {<ProtectedRoute isAdmin={true}/>}>
+        <Route exact path="/admin/dashboard" element = {<Dashboard />}/> */}
+        <Route exact path="/admin/products" element = {<ProductList />}/>
+         <Route exact path="/admin/product" element = {<NewProduct />}/>
+         <Route exact path="/admin/orders" element = {<OrderList />}/>
+         <Route exact path="/admin/users" element = {<UsersList />}/>
+         <Route exact path="/admin/users/:id" element = {<UpdateUser />}/>
+      </Route>
+
+     
+      {/* <Route
+        exact path="/process/payment" 
+        element = 
+        {
+          <ProtectedRoute isAdmin={isAdmin}>
+            <OrderSuccess />
+            </ProtectedRoute>
+        }
+        /> */}
     </Routes>
-    <Footer />
+    {/* <Footer /> */}
   </Router>
 
 }

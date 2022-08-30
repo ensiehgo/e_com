@@ -58,6 +58,8 @@ export const userReducer = (state = { user: {} }, action) => {
         loading: false,
         isAuthenticated: true,
         user: action.payload,
+        isAdmin: action.payload.role === 'admin' ? true : false,
+        // action.payload.
       };
 
     case LOGOUT_SUCCESS:

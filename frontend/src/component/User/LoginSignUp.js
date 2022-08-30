@@ -68,9 +68,7 @@ const LoginSignUp = () => {
   };
 
   const location = useLocation();
-  // console.log(location);
-  const redirect = location.search ? location.search.split("=")[1] : "/account";
-  // console.log('redirect: ' + redirect);
+  const redirect = location.search ? location.search.split("=")[1] : "account";
 
   const navigate = useNavigate();
 
